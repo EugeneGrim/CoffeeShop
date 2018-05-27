@@ -1,4 +1,6 @@
-package com.coffeeshop;
+package com.coffeeshop.controller;
+
+import com.coffeeshop.model.Beverage;
 
 import lombok.Getter;
 
@@ -6,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-class Order {
+public class Order {
     private static int ordersCount;
     private int order_id;
 
@@ -21,20 +23,20 @@ class Order {
     @Getter
     private Date orderTime;
 
-    Order() {
+    public Order() {
         order_id = ordersCount;
         ordersCount++;
         status = Status.CREATED;
         orderTime = new Date();
     }
 
-    Order close() {
+    public Order close() {
         status = Status.SERVICED;
         orderTime = new Date();
         return this;
     }
 
-    Order cancel() {
+    public Order cancel() {
         status = Status.CANCELED;
         orderTime = new Date();
         return this;
@@ -46,17 +48,17 @@ class Order {
 
     private LinkedList<Beverage> beverageList = new LinkedList<>();
 
-    Order addBeverage(Beverage beverage) {
+    public Order addBeverage(Beverage beverage) {
         beverageList.add(beverage);
         return this;
     }
 
-    Order removeBeverage(Beverage beverage) {
+    public Order removeBeverage(Beverage beverage) {
         beverageList.remove(beverage);
         return this;
     }
 
-    Order removeLastBeverage() {
+    public Order removeLastBeverage() {
         if (!beverageList.isEmpty()) {
             beverageList.removeLast();
         }
@@ -69,7 +71,7 @@ class Order {
 
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm EE dd.MM.yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm EE dd.MM.yyyy");
         StringBuilder result = new StringBuilder("Order N" + (order_id + 1))
                 .append(" - ").append(status).append(" ")
                 .append(dateFormat.format(orderTime))

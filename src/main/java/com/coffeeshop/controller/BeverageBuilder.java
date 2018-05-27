@@ -1,27 +1,30 @@
-package com.coffeeshop;
+package com.coffeeshop.controller;
+
+import com.coffeeshop.model.Beverage;
+import com.coffeeshop.model.Toppings;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class BeverageBuilder {
+public class BeverageBuilder {
     private Beverage beverage;
     private List<Toppings> toppings = new ArrayList<>();
 
-    BeverageBuilder(Beverage beverage){
+    public BeverageBuilder(Beverage beverage){
         this.beverage = beverage;
     }
 
-    BeverageBuilder addTopping(Toppings topping) {
+    public BeverageBuilder addTopping(Toppings topping) {
         toppings.add(topping);
         return this;
     }
 
-    BeverageBuilder removeTopping(Toppings topping) {
+    public BeverageBuilder removeTopping(Toppings topping) {
         toppings.remove(topping);
         return this;
     }
 
-    Beverage makeBeverage() {
+    public Beverage makeBeverage() {
         return Beverage.makeBeverage(beverage, toppings);
     }
 }

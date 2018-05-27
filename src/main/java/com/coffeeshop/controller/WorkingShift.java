@@ -1,4 +1,4 @@
-package com.coffeeshop;
+package com.coffeeshop.controller;
 
 import lombok.Getter;
 
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Getter
-class WorkingShift {
+public class WorkingShift {
     private Date startShiftTime;
     private Date endsShiftTime;
 
@@ -20,20 +20,20 @@ class WorkingShift {
 
     private List<Order> ordersList = new ArrayList<>();
 
-    WorkingShift() {
+    public WorkingShift() {
         startShiftTime = new Date();
         shiftStatus = ShiftStatus.STARTED;
         Order.resetOrdersCount();
     }
 
-    WorkingShift addOrder(Order order) {
+    public WorkingShift addOrder(Order order) {
         if (order.getStatus() == Order.Status.SERVICED || order.getStatus() == Order.Status.CANCELED) {
             ordersList.add(order);
         }
         return this;
     }
 
-    double getProceeds() {
+    private double getProceeds() {
         return ordersList.stream()
                 .filter(order -> order.getStatus() == Order.Status.SERVICED)
                 .mapToDouble(Order::getPrice)
@@ -43,7 +43,7 @@ class WorkingShift {
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy EE");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
         return "WORKING SHIFT " +
                 dateFormat.format(startShiftTime) + System.lineSeparator() +
@@ -59,7 +59,7 @@ class WorkingShift {
                 "--------------------" + System.lineSeparator() + System.lineSeparator();
     }
 
-    void close() {
+    public void close() {
         endsShiftTime = new Date();
         shiftStatus = ShiftStatus.CLOSED;
     }

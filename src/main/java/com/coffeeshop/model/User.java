@@ -1,12 +1,10 @@
-package com.coffeeshop;
+package com.coffeeshop.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
-@ToString(of="userName")
-class User {
+public class User {
     private int userId;
     @Setter private String userName;
     @Setter private String userLogin;
@@ -16,11 +14,15 @@ class User {
         ADMIN,
         USER
     }
-
     User(int userId, String userName, String userLogin, UserRole userRole) {
         this.userId = userId;
         this.userName = userName;
         this.userLogin = userLogin;
         this.userRole = userRole;
+    }
+
+    @Override
+    public String toString() {
+        return userName;
     }
 }
