@@ -1,4 +1,4 @@
-package com.coffeeshop.controller;
+package com.coffeeshop.model;
 
 import lombok.Getter;
 
@@ -11,6 +11,7 @@ import java.util.List;
 public class WorkingShift {
     private Date startShiftTime;
     private Date endsShiftTime;
+    private User user;
 
     enum ShiftStatus {
         STARTED,
@@ -20,10 +21,10 @@ public class WorkingShift {
 
     private List<Order> ordersList = new ArrayList<>();
 
-    public WorkingShift() {
+    public WorkingShift(User user) {
         startShiftTime = new Date();
         shiftStatus = ShiftStatus.STARTED;
-        Order.resetOrdersCount();
+        this.user = user;
     }
 
     public WorkingShift addOrder(Order order) {

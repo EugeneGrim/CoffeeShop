@@ -64,16 +64,16 @@ public class DbHandler {
         }
     }
 
-    public List<BeverageDecorator> getToppings() {
+    public List<BeverageDecorator.Topping> getToppings() {
         try (Statement statement = this.connection.createStatement()) {
-            List<BeverageDecorator> toppings = new ArrayList<>();
+            List<BeverageDecorator.Topping> toppings = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM toppings");
             while (resultSet.next()) {
-                BeverageDecorator topping = new BeverageDecorator();
-                topping.setName(resultSet.getString("topping_name"));
-                topping.setDescription(resultSet.getString("topping_description"));
-                topping.setCost(resultSet.getDouble("topping_cost"));
-                toppings.add(topping);
+                toppings.add(new BeverageDecorator.Topping(
+                        resultSet.getString("topping_name"),
+                        resultSet.getString("topping_description"),
+                        resultSet.getDouble("topping_cost")
+                ));
             }
             return toppings;
         } catch (SQLException e) {
@@ -82,18 +82,36 @@ public class DbHandler {
         }
     }
 
-    public List<BeverageDecorator.Topping> getToppingsN() {
+    public List<Snack> getSnacks() {
         try (Statement statement = this.connection.createStatement()) {
-            List<BeverageDecorator.Topping> toppings = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM toppings");
+            List<Snack> snacks = new ArrayList<>();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM snacks");
             while (resultSet.next()) {
-                toppings.add(new BeverageDecorator.Topping(
-                        resultSet.getString("topping_name"),
-                        resultSet.getString("beverage_description"),
-                        resultSet.getDouble("beverage_cost")
-                ));
+                Snack snack = new Snack();
+                snack.setName(resultSet.getString("snack_name"));
+                snack.setDescription(resultSet.getString("snack_description"));
+                snack.setCost(resultSet.getDouble("snack_cost"));
+                snacks.add(snack);
             }
-            return toppings;
+            return snacks;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
+    public List<HotFood> getHotFoods() {
+        try (Statement statement = this.connection.createStatement()) {
+            List<HotFood> hotFoods = new ArrayList<>();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
+            while (resultSet.next()) {
+                HotFood hotFood = new HotFood();
+                hotFood.setName(resultSet.getString("food_name"));
+                hotFood.setDescription(resultSet.getString("food_description"));
+                hotFood.setCost(resultSet.getDouble("food_cost"));
+                hotFoods.add(hotFood);
+            }
+            return hotFoods;
         } catch (SQLException e) {
             e.printStackTrace();
             return Collections.emptyList();

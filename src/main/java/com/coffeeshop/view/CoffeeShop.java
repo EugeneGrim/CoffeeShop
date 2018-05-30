@@ -1,8 +1,8 @@
 package com.coffeeshop.view;
 
 import com.coffeeshop.controller.BeverageBuilder;
-import com.coffeeshop.controller.Order;
-import com.coffeeshop.controller.WorkingShift;
+import com.coffeeshop.model.Order;
+import com.coffeeshop.model.WorkingShift;
 import com.coffeeshop.model.*;
 
 import lombok.Getter;
@@ -15,9 +15,9 @@ import java.util.List;
 public class CoffeeShop {
     private List<User> users;
     private List<Beverage> beverages;
-    private List<BeverageDecorator> toppings;
+    private List<BeverageDecorator.Topping> toppings;
     private List<Snack> snacks;
-    private List<HotFood> hotFood;
+    private List<HotFood> hotFoods;
 
     public static void main(String[] args) {
 
@@ -27,20 +27,23 @@ public class CoffeeShop {
         coffeeShop.setUsers(dbHandler.getUsers());
         coffeeShop.setBeverages(dbHandler.getBeverages());
         coffeeShop.setToppings(dbHandler.getToppings());
+        coffeeShop.setSnacks(dbHandler.getSnacks());
+        coffeeShop.setHotFoods(dbHandler.getHotFoods());
 
-        WorkingShift workingShift1 = new WorkingShift();
+        WorkingShift workingShift1 = new WorkingShift(coffeeShop.getUsers().get(0));
 
-        Order order1 = new Order()
+        Order order1 = new Order(0)
                 .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
-                        .addTopping(Toppings.MILK)
-                        .addTopping(Toppings.CHOCOLATE)
+                        .addTopping(coffeeShop.getToppings().get(0))
+                        .addTopping(coffeeShop.getToppings().get(1))
                         .makeBeverage())
                 .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(1))
-                        .addTopping(Toppings.MILK)
-                        .addTopping(Toppings.MILK)
-                        .removeTopping(Toppings.MILK)
+                        .addTopping(coffeeShop.getToppings().get(0))
+                        .addTopping(coffeeShop.getToppings().get(0))
+                        .removeTopping(coffeeShop.getToppings().get(0))
                         .makeBeverage())
                 .addBeverage(coffeeShop.getBeverages().get(0))
+                .addSnack(coffeeShop.getSnacks().get(0))
                 .close();
 
         System.out.println(order1);
@@ -48,24 +51,24 @@ public class CoffeeShop {
         workingShift1.addOrder(order1);
 
         workingShift1
-                .addOrder(new Order()
+                .addOrder(new Order(1)
                         .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
-                                .addTopping(Toppings.MILK)
-                                .addTopping(Toppings.CHOCOLATE)
+                                .addTopping(coffeeShop.getToppings().get(0))
+                                .addTopping(coffeeShop.getToppings().get(1))
                                 .makeBeverage())
                         .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(1))
-                                .addTopping(Toppings.MILK)
-                                .addTopping(Toppings.MILK)
-                                .removeTopping(Toppings.MILK)
+                                .addTopping(coffeeShop.getToppings().get(0))
+                                .addTopping(coffeeShop.getToppings().get(0))
+                                .removeTopping(coffeeShop.getToppings().get(0))
                                 .makeBeverage())
                         .addBeverage(coffeeShop.getBeverages().get(0))
                         .close())
-                .addOrder(new Order()
+                .addOrder(new Order(2)
                         .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
-                                .addTopping(Toppings.MILK)
+                                .addTopping(coffeeShop.getToppings().get(0))
                                 .makeBeverage())
                         .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
-                                .addTopping(Toppings.CHOCOLATE)
+                                .addTopping(coffeeShop.getToppings().get(1))
                                 .makeBeverage())
                         .removeLastBeverage()
                         .cancel());
