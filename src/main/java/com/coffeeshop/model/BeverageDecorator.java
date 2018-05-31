@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class BeverageDecorator extends Beverage {
-    private final static double TOPPING_MARGIN = Goods.setMargin("TOPPING_MARGIN");
+    private final static double TOPPING_MARGIN = Product.setMargin("TOPPING_MARGIN");
 
-    @Setter
     @Getter
     @AllArgsConstructor
     public static class Topping {
@@ -20,10 +19,8 @@ public class BeverageDecorator extends Beverage {
     private Beverage beverage;
 
     public BeverageDecorator(Beverage beverage, Topping topping) {
+        super(topping.getName(), topping.getDescription(), topping.getCost());
         this.beverage = beverage;
-        this.setName(topping.getName());
-        this.setDescription(topping.getDescription());
-        this.setCost(topping.getCost());
     }
 
     @Override
@@ -33,6 +30,20 @@ public class BeverageDecorator extends Beverage {
 
     @Override
     public String toString() {
-        return beverage + " + " + this.getName();
+        String result = beverage.toString();
+
+        if (result.contains(this.getName())) {
+            int index = result.indexOf("x " + this.getName());
+            if (index > 1) {
+                Integer count = Integer.parseInt(result.substring(index - 1, index));
+                result = result.replace(count + "x " + this.getName(),
+                        (++count).toString() + "x " + this.getName());
+            } else {
+                result = result.replace(this.getName(), "2x " + this.getName());
+            }
+            return result;
+        } else {
+            return beverage + " + " + this.getName();
+        }
     }
 }

@@ -37,7 +37,7 @@ public class DbHandler {
                 users.add(new User(resultSet.getInt("user_id"),
                         resultSet.getString("user_name"),
                         resultSet.getString("user_login"),
-                        resultSet.getInt("user_role") == 0 ? User.UserRole.ADMIN : User.UserRole.USER));
+                        resultSet.getString("user_role").equals("ADMIN") ? User.UserRole.ADMIN : User.UserRole.USER));
             }
             return users;
         } catch (SQLException e) {
@@ -48,13 +48,12 @@ public class DbHandler {
 
     public List<Beverage> getBeverages() {
         try (Statement statement = this.connection.createStatement()) {
-            List<Beverage> beverages= new ArrayList<>();
+            List<Beverage> beverages = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM beverages");
             while (resultSet.next()) {
-                Beverage beverage = new Beverage();
-                beverage.setName(resultSet.getString("beverage_name"));
-                beverage.setDescription(resultSet.getString("beverage_description"));
-                beverage.setCost(resultSet.getDouble("beverage_cost"));
+                Beverage beverage = new Beverage(resultSet.getString("beverage_name"),
+                        resultSet.getString("beverage_description"),
+                        resultSet.getDouble("beverage_cost"));
                 beverages.add(beverage);
             }
             return beverages;
@@ -87,10 +86,9 @@ public class DbHandler {
             List<Snack> snacks = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM snacks");
             while (resultSet.next()) {
-                Snack snack = new Snack();
-                snack.setName(resultSet.getString("snack_name"));
-                snack.setDescription(resultSet.getString("snack_description"));
-                snack.setCost(resultSet.getDouble("snack_cost"));
+                Snack snack = new Snack(resultSet.getString("snack_name"),
+                        resultSet.getString("snack_description"),
+                        resultSet.getDouble("snack_cost"));
                 snacks.add(snack);
             }
             return snacks;
@@ -105,10 +103,10 @@ public class DbHandler {
             List<HotFood> hotFoods = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
             while (resultSet.next()) {
-                HotFood hotFood = new HotFood();
-                hotFood.setName(resultSet.getString("food_name"));
-                hotFood.setDescription(resultSet.getString("food_description"));
-                hotFood.setCost(resultSet.getDouble("food_cost"));
+                HotFood hotFood = new HotFood(
+                        resultSet.getString("food_name"),
+                        resultSet.getString("food_description"),
+                        resultSet.getDouble("food_cost"));
                 hotFoods.add(hotFood);
             }
             return hotFoods;

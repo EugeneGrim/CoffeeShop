@@ -33,17 +33,23 @@ public class CoffeeShop {
         WorkingShift workingShift1 = new WorkingShift(coffeeShop.getUsers().get(0));
 
         Order order1 = new Order(0)
-                .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
+                .addProduct(new BeverageBuilder(coffeeShop.getBeverages().get(0))
                         .addTopping(coffeeShop.getToppings().get(0))
                         .addTopping(coffeeShop.getToppings().get(1))
+                        .addTopping(coffeeShop.getToppings().get(0))
                         .makeBeverage())
-                .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(1))
+                .addProduct(new BeverageBuilder(coffeeShop.getBeverages().get(1))
                         .addTopping(coffeeShop.getToppings().get(0))
                         .addTopping(coffeeShop.getToppings().get(0))
                         .removeTopping(coffeeShop.getToppings().get(0))
                         .makeBeverage())
-                .addBeverage(coffeeShop.getBeverages().get(0))
-                .addSnack(coffeeShop.getSnacks().get(0))
+                .addProduct(coffeeShop.getBeverages().get(0))
+                .addProduct(new BeverageBuilder(coffeeShop.getBeverages().get(1))
+                        .addTopping(coffeeShop.getToppings().get(1))
+                        .addTopping(coffeeShop.getToppings().get(1))
+                        .addTopping(coffeeShop.getToppings().get(1))
+                        .makeBeverage())
+                .addProduct(coffeeShop.getSnacks().get(0))
                 .close();
 
         System.out.println(order1);
@@ -52,25 +58,25 @@ public class CoffeeShop {
 
         workingShift1
                 .addOrder(new Order(1)
-                        .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
+                        .addProduct(new BeverageBuilder(coffeeShop.getBeverages().get(0))
                                 .addTopping(coffeeShop.getToppings().get(0))
                                 .addTopping(coffeeShop.getToppings().get(1))
                                 .makeBeverage())
-                        .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(1))
+                        .addProduct(new BeverageBuilder(coffeeShop.getBeverages().get(1))
                                 .addTopping(coffeeShop.getToppings().get(0))
                                 .addTopping(coffeeShop.getToppings().get(0))
                                 .removeTopping(coffeeShop.getToppings().get(0))
                                 .makeBeverage())
-                        .addBeverage(coffeeShop.getBeverages().get(0))
+                        .addProduct(coffeeShop.getBeverages().get(0))
                         .close())
                 .addOrder(new Order(2)
-                        .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
+                        .addProduct(new BeverageBuilder(coffeeShop.getBeverages().get(0))
                                 .addTopping(coffeeShop.getToppings().get(0))
                                 .makeBeverage())
-                        .addBeverage(new BeverageBuilder(coffeeShop.getBeverages().get(0))
+                        .addProduct(new BeverageBuilder(coffeeShop.getBeverages().get(0))
                                 .addTopping(coffeeShop.getToppings().get(1))
                                 .makeBeverage())
-                        .removeLastBeverage()
+                        .removeLastProduct()
                         .cancel());
 
         workingShift1.close();

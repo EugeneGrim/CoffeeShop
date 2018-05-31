@@ -13,7 +13,6 @@ public class Order {
         SERVICED,
         CANCELED,
         ERROR
-
     }
     @Getter
     private Status status;
@@ -22,10 +21,8 @@ public class Order {
     private Date orderTime;
     @Getter
     private String errorDescription;
-
-    private LinkedList<Beverage> beverageList = new LinkedList<>();
-    private LinkedList<Snack> snackList = new LinkedList<>();
-    private LinkedList<HotFood> hotFoodList = new LinkedList<>();
+    @Getter
+    private LinkedList<Product> productList = new LinkedList<>();
 
     public Order(int order_id) {
         this.order_id = order_id;
@@ -51,71 +48,23 @@ public class Order {
         return this;
     }
 
-    public Order addBeverage(Beverage beverage) {
-        beverageList.add(beverage);
+    public Order addProduct(Product product) {
+        this.productList.add(product);
         return this;
     }
 
-    public Order addSnack(Snack snack) {
-        snackList.add(snack);
+    public Order removeProduct(Product product) {
+        this.productList.remove(product);
         return this;
     }
 
-    public Order addHotFood(HotFood hotFood) {
-        hotFoodList.add(hotFood);
-        return this;
-    }
-
-    public Order removeBeverage(Beverage beverage) {
-        beverageList.remove(beverage);
-        return this;
-    }
-
-    public Order removeLastBeverage() {
-        if (!beverageList.isEmpty()) {
-            beverageList.removeLast();
-        }
-        return this;
-    }
-
-    public Order removeSnack(Snack snack) {
-        snackList.remove(snack);
-        return this;
-    }
-
-    public Order removeLastSnack() {
-        if (!snackList.isEmpty()) {
-            snackList.removeLast();
-        }
-        return this;
-    }public Order removeHotFood(HotFood hotFood) {
-        hotFoodList.remove(hotFood);
-        return this;
-    }
-
-    public Order removeLastHotFood() {
-        if (!hotFoodList.isEmpty()) {
-            hotFoodList.removeLast();
-        }
+    public Order removeLastProduct() {
+        this.productList.removeLast();
         return this;
     }
 
     double getPrice() {
-        return beverageList.stream().mapToDouble(Beverage::getPrice).sum() +
-                snackList.stream().mapToDouble(Snack::getPrice).sum() +
-                hotFoodList.stream().mapToDouble(HotFood::getPrice).sum();
-    }
-
-    private String getStringGoodsInOerder(LinkedList<? extends Goods> goods, String title) {
-        StringBuilder result = new StringBuilder(title).append(System.lineSeparator());
-        for (Goods good: goods) {
-            result.append("- ").append(good)
-                    .append(", ")
-                    .append(good.getPrice())
-                    .append(" RUB")
-                    .append(System.lineSeparator());
-        }
-        return result.toString();
+        return productList.stream().mapToDouble(Product::getPrice).sum();
     }
 
     @Override
@@ -127,19 +76,13 @@ public class Order {
                 .append(System.lineSeparator())
                 .append("===================")
                 .append(System.lineSeparator());
-
-        if (!beverageList.isEmpty()) {
-            result.append(getStringGoodsInOerder(beverageList, "Drinks:"));
+        for (Product product : productList) {
+            result.append("- ").append(product)
+                    .append(", ")
+                    .append(product.getPrice())
+                    .append(" RUB")
+                    .append(System.lineSeparator());
         }
-
-        if (!hotFoodList.isEmpty()) {
-            result.append(getStringGoodsInOerder(hotFoodList, "Hot food:"));
-        }
-
-        if (!snackList.isEmpty()) {
-            result.append(getStringGoodsInOerder(snackList, "Snacks:"));
-        }
-
         result.append("-------------------")
                 .append(System.lineSeparator())
                 .append("TOTAL PRICE: ")

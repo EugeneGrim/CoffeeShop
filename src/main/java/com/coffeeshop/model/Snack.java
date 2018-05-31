@@ -1,7 +1,11 @@
 package com.coffeeshop.model;
 
 public class Snack extends Goods {
-    private final static double SNACK_MARGIN = Goods.setMargin("SNACK_MARGIN");
+    private final static double SNACK_MARGIN = Product.setMargin("SNACK_MARGIN");
+
+    Snack(String name, String description, double cost) {
+        super(name, description, cost);
+    }
 
     @Override
     public double getPrice() {

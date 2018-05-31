@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 public class WorkingShift {
     private Date startShiftTime;
-    private Date endsShiftTime;
+    private Date endShiftTime;
     private User user;
 
     enum ShiftStatus {
@@ -28,9 +28,7 @@ public class WorkingShift {
     }
 
     public WorkingShift addOrder(Order order) {
-        if (order.getStatus() == Order.Status.SERVICED || order.getStatus() == Order.Status.CANCELED) {
-            ordersList.add(order);
-        }
+        ordersList.add(order);
         return this;
     }
 
@@ -38,6 +36,27 @@ public class WorkingShift {
         return ordersList.stream()
                 .filter(order -> order.getStatus() == Order.Status.SERVICED)
                 .mapToDouble(Order::getPrice)
+                .sum();
+    }
+
+    private int countOfServicedOrders() {
+        return ordersList.stream()
+                .filter(order -> order.getStatus() == Order.Status.SERVICED)
+                .mapToInt(order -> 1)
+                .sum();
+    }
+
+    private int countOfCanceledOrders() {
+        return ordersList.stream()
+                .filter(order -> order.getStatus() == Order.Status.CANCELED)
+                .mapToInt(order -> 1)
+                .sum();
+    }
+
+    private int countOfErrorOrders() {
+        return ordersList.stream()
+                .filter(order -> order.getStatus() == Order.Status.ERROR)
+                .mapToInt(order -> 1)
                 .sum();
     }
 
@@ -53,15 +72,19 @@ public class WorkingShift {
                 "Shift starts at: " +
                 timeFormat.format(startShiftTime) + System.lineSeparator() +
                 "Shift ends at: " +
-                (shiftStatus == ShiftStatus.CLOSED ? timeFormat.format(endsShiftTime) : "") +
+                (shiftStatus == ShiftStatus.CLOSED ? timeFormat.format(endShiftTime) : "") +
                 System.lineSeparator() + "--------------------" + System.lineSeparator() +
                 "Total orders: " + ordersList.size() + System.lineSeparator() +
+                "Serviced orders: " + countOfServicedOrders() + System.lineSeparator() +
+                "Canceled orders: " + countOfCanceledOrders() + System.lineSeparator() +
+                "Error orders: " + countOfErrorOrders() + System.lineSeparator() +
+                "--------------------" + System.lineSeparator() +
                 "TOTAL PROCEEDS: " + getProceeds() + " RUB" + System.lineSeparator() +
-                "--------------------" + System.lineSeparator() + System.lineSeparator();
+                "--------------------" + System.lineSeparator();
     }
 
     public void close() {
-        endsShiftTime = new Date();
+        endShiftTime = new Date();
         shiftStatus = ShiftStatus.CLOSED;
     }
 }
