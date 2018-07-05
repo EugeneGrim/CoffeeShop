@@ -12,4 +12,3 @@ public class Beverage extends Goods {
         return getCost() * DRINK_MARGIN;
     }
 }
-

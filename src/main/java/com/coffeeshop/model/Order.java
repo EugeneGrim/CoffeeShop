@@ -90,7 +90,6 @@ public class Order {
                 .append(" RUB").append(System.lineSeparator())
                 .append("-------------------")
                 .append(System.lineSeparator());
-
         return result.toString();
     }
 }

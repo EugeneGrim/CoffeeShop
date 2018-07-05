@@ -12,6 +12,6 @@ abstract class Goods implements Product {
 
     @Override
     public String toString() {
-        return name + " " + description;
+        return !description.isEmpty() ? name + " " + description : name;
     }
 }

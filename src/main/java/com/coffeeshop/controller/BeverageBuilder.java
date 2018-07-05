@@ -10,7 +10,7 @@ public class BeverageBuilder {
     private Beverage beverage;
     private List<BeverageDecorator.Topping> toppings = new ArrayList<>();
 
-    public BeverageBuilder(Beverage beverage){
+    public BeverageBuilder(Beverage beverage) {
         this.beverage = beverage;
     }
 

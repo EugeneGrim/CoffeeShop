@@ -13,8 +13,8 @@ public class BeverageDecorator extends Beverage {
         private String name;
         private String description;
         private double cost;
-
     }
+
     @Setter
     private Beverage beverage;
 
@@ -31,7 +31,6 @@ public class BeverageDecorator extends Beverage {
     @Override
     public String toString() {
         String result = beverage.toString();
-
         if (result.contains(this.getName())) {
             int index = result.indexOf("x " + this.getName());
             if (index > 1) {
